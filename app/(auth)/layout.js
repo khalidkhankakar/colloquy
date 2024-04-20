@@ -1,3 +1,4 @@
+import { EmailProvider } from "@/context/emailContext/EmailProvider";
 import "../globals.css";
 
 
@@ -8,6 +9,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <EmailProvider>
+
     <main>{children}</main>
+    </EmailProvider>
   );
 }

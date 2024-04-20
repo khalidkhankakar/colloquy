@@ -9,9 +9,53 @@ import { Input } from "@/components/ui/input"
 import { OtpFormSchema } from "@/lib/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useContext, useEffect, useRef, useState } from 'react'
+import { EmailContext } from '@/context/emailContext/EmailContext'
+import { fillUserOTPFieldInDatabase, verifyOTP } from '@/database/actions/user.actions'
+import otpGenerator from 'otp-generator'
+import { sendEmail } from '@/lib/helpers'
 
 
 const Otp = () => {
+  const {userEmail} = useContext(EmailContext)
+console.log(userEmail);
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(0);
+  
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      if(seconds==0 && minutes==0){
+        console.log('EMPTY OTP IN DATABASE');
+        const emptyOTPField = async ()=>{
+          const resp = await fillUserOTPFieldInDatabase(userEmail,'clearOTP')
+          console.log(resp);
+        }
+        emptyOTPField()
+      }
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      } else if (minutes > 0) {
+        setSeconds(59);
+        setMinutes(minutes - 1);
+      } else {
+        clearInterval(intervalRef.current);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalRef.current);
+  }, [minutes, seconds]); // Dependency array ensures effect runs on changes
+
+  const handleResendOtp = async () => {
+    console.log("API CALL TO FILL OTP FEILD AND RESEND EMAIL");
+    const resp = await fillUserOTPFieldInDatabase(userEmail,'resend')
+    console.log(resp);
+    if(resp.status== 200){
+      setMinutes(1);
+      setSeconds(0);
+    }
+  };
 
   const form = useForm({
     resolver: zodResolver(OtpFormSchema),
@@ -20,12 +64,12 @@ const Otp = () => {
     },
   })
 
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values) {
+    const resp = await verifyOTP(userEmail, values.otp)
+console.log(resp);
     console.log(values)
   }
-
+  // 
   return (
     <Form {...form}>
       <div className="flex items-center justify-center flex-col dark:text-white text-black ">
@@ -38,7 +82,16 @@ const Otp = () => {
           name="otp"
           render={({ field }) => (
             <FormItem>
+              <div className='flex justify-between items-center'>
               <FormLabel className='small-medium' >Otp - (6 digits)</FormLabel >
+              <div className="flex justify-end space-x-3 font-rubik  items-center">
+      <p>Time Remaining: <span className={`base-medium ${minutes ==0 && seconds <10 ? 'text-red-600' : ''}`}>{minutes.toString().padStart(2,'0')}:{seconds.toString().padStart(2, '0')}</span></p>
+      <Button type="button" className='py-0.5 px-3 bg-color-1 hover:bg-color-2 font-rubik' disabled={minutes > 0 || seconds > 0} onClick={handleResendOtp}>
+        Resend OTP
+      </Button>
+    </div>
+
+              </div>
               <FormControl>
                 <Input  {...field} />
               </FormControl>
@@ -48,7 +101,7 @@ const Otp = () => {
           />
           <div className="grid grid-cols-2 gap-4">
         <Button type="button" className="bg-gray-300 text-black border-black mt-3 font-rubik hover:bg-gray-200 dark:bg-slate-200 dark:hover:bg-slate-200 dark:text-white">Cancel</Button>
-        <Button type="submit" className="mt-3 bg-color-1 hover:bg-color-2 font-rubik">Verfiy</Button>
+        <Button type="submit" disabled={minutes < 0 || seconds <= 0} className="mt-3 bg-color-1 hover:bg-color-2 font-rubik">Verfiy</Button>
           </div>
       <div className='line w-40 my-3 m-auto' />
       <p className='small-regular font-rubik text-center '>Do not have account? <Link href="/signup" className="text-yellow-700  ">Register</Link></p>

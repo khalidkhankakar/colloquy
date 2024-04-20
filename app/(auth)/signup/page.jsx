@@ -12,10 +12,15 @@ import { signUpFormSchema } from "@/lib/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { createUser } from '@/database/actions/user.actions'
+import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { EmailContext } from '@/context/emailContext/EmailContext'
+
 
 
 const Signup = () => {
-
+  const {setUserEmail} = useContext(EmailContext)
+const router = useRouter()
   const form = useForm({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -44,7 +49,11 @@ const Signup = () => {
       cpassword:values.cpassword
     }
     const resp = await createUser(newValues)
-    console.log(resp)
+    console.log(resp);
+    if(resp.status==201){
+      setUserEmail(values.email)
+      router.push('/otp')
+    }
   }
 
   return (

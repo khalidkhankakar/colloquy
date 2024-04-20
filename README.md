@@ -1,5 +1,5 @@
 
-## Social Media webapp
+## Social Media Webapp
 
 First, run the development server:
 

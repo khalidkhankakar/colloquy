@@ -5,4 +5,4 @@ import SelectInput from "./Selectinput"
 
 
 
-export {Topbar,Leftsidebar,Rightsidebar,SelectInput}
+export {Topbar,Leftsidebar,Rightsidebar,SelectInput,}
