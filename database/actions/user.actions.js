@@ -29,6 +29,7 @@ export const createUser = async (fromData) => {
     // OTP VERIFICATION
     const otp = otpGenerator.generate(6, {lowerCaseAlphabets:false, upperCaseAlphabets: false, specialChars: false })
     const mailSender = await sendEmail(email, otp, firstName, lastName)
+    console.log(mailSender);
     if(!mailSender.success){
       console.log('email send not successfully',mailSender);
       return { status: 400, message: "OTP isn't sent successfully" };
@@ -102,6 +103,7 @@ export const fillUserOTPFieldInDatabase = async (email,type)=>{
       newOtp = otpGenerator.generate(6, {lowerCaseAlphabets:false, upperCaseAlphabets: false, specialChars: false })
       console.log(newOtp);
       const mailSender = await sendEmail(email, newOtp)
+      console.log(mailSender);
       if(!mailSender.success){
         return {status:400, message:"Email isn't sent successfully"}
       }

@@ -2,31 +2,33 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { SelectInput } from "@/components/shared"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel , FormMessage,
+import { Form, FormControl, FormField, FormItem, FormLabel ,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { DateOfBirthYears, DateOfBrithDays, DateOfBrithMonths } from "@/lib/utils"
-import { logInFormSchema } from "@/lib/validations"
+import { logInFormDefaultValues, logInFormSchema } from "@/lib/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { Loader } from '@/components/shared'
+import { useState } from 'react'
 
 
 const Login = () => {
-
+  const [loading, setLoading] = useState(false)
   const form = useForm({
     resolver: zodResolver(logInFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: logInFormDefaultValues,
   })
 
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    try {
+      setLoading(true)
     console.log(values)
+  } catch (error) {
+    console.log(error);
+}finally{
+  setLoading(false)
+}
   }
 
   return (
@@ -62,7 +64,8 @@ const Login = () => {
           />
           <div className="grid grid-cols-2 gap-4">
         <Button type="button" className="bg-gray-300 text-black border-black mt-3 font-rubik hover:bg-gray-200 dark:bg-slate-200 dark:hover:bg-slate-200 dark:text-white">Cancel</Button>
-        <Button type="submit" className="mt-3 bg-color-1 hover:bg-color-2 font-rubik">Login</Button>
+        <Button type="submit" className="mt-3 bg-color-1 hover:bg-color-2 font-rubik">
+        {loading? <Loader wid={40} hei={40} /> :'Login'}  </Button>
           </div>
       <div className='line w-40 my-3 m-auto' />
       <p className='small-regular font-rubik text-center '>Do not have account? <Link href="/signup" className="text-yellow-700  ">Register</Link></p>
