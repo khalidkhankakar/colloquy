@@ -1,6 +1,11 @@
 import { navLinks, navLinks2 } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
+import Searchpopover from "./Searchpopover";
+import Menupopover from "./Menupopover";
+import Messengerpopover from "./Messengerpopover";
+import Notificationpopover from "./Notificationpopover";
+import Userpopover from "./Userpopover";
 
 const Topbar = () => {
   return (
@@ -39,40 +44,29 @@ const Topbar = () => {
           />
         </div>
       </div>
-
       {/* hidden of xsm  */}
       {/* navigations */}
       <div className="hidden md:flex-center space-x-5  ">
-        {
-          navLinks.map((nav)=>{
-            return <div key={nav.fillIcon} className="bg-gray-200 p-3 rounded-full">
-            <Image
-              src={nav.outlineIcon}
-              width={50}
-              height={50}
-              alt="logo"
-              className="w-5 h-5 cursor-pointer"
-            />
-          </div>
-          })
-        }
+        {navLinks.map((nav) => {
+          return (
+            <div key={nav.fillIcon} className="bg-gray-200 p-3 rounded-full">
+              <Image
+                src={nav.outlineIcon}
+                width={50}
+                height={50}
+                alt="logo"
+                className="w-5 h-5 cursor-pointer"
+              />
+            </div>
+          );
+        })}
       </div>
-
       {/* create post messenger */}
       <div className="flex-center space-x-2 ">
-        {
-          navLinks2.map((nav)=>{
-            return <div key={nav.outlineIcon} className="bg-gray-200 p-3 rounded-full">
-            <Image
-              src={nav.outlineIcon}
-              width={50}
-              height={50}
-              alt="logo"
-              className="w-5 h-5  cursor-pointer"
-            />
-          </div>
-          })
-        }
+        <Menupopover />
+        <Messengerpopover />
+        <Notificationpopover />
+        <Userpopover />
       </div>
     </div>
   );
