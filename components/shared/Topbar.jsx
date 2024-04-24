@@ -1,9 +1,81 @@
-import React from 'react'
+import { navLinks, navLinks2 } from "@/lib/utils";
+import Image from "next/image";
+import React from "react";
 
 const Topbar = () => {
   return (
-    <div className="py-4 px-3 sticky top-0 bg-gray-500">Topbar</div>
-  )
-}
+    <div className="py-3 px-3 sticky top-0 bg-white  shadow-md  flex-between">
+      {/* logo and search bar */}
+      <div className="flex-center space-x-4">
+        <Image
+          src={"/colloquy.svg"}
+          width={200}
+          height={80}
+          alt="logo"
+          className="w-36 "
+        />
+        <div className="bg-gray-200 p-2 rounded-full block lg:hidden">
+          <Image
+            src={"/assets/search.png"}
+            width={50}
+            height={50}
+            alt="logo"
+            className="w-5 h-5   rounded-full cursor-pointer"
+          />
+        </div>
+        <div className="hidden lg:flex items-center justify-center  space-x-2 bg-gray-100 py-2 px-3 rounded-full">
+          <Image
+            src={"/assets/search.png"}
+            width={50}
+            height={50}
+            alt="logo"
+            className="w-5 h-5 "
+          />
+          <input
+            type="text"
+            name="search"
+            className="outline-none bg-gray-100 placeholder:text-black"
+            placeholder="Search Colloquy"
+          />
+        </div>
+      </div>
 
-export default Topbar
+      {/* hidden of xsm  */}
+      {/* navigations */}
+      <div className="hidden md:flex-center space-x-5  ">
+        {
+          navLinks.map((nav)=>{
+            return <div key={nav.fillIcon} className="bg-gray-200 p-3 rounded-full">
+            <Image
+              src={nav.outlineIcon}
+              width={50}
+              height={50}
+              alt="logo"
+              className="w-5 h-5 cursor-pointer"
+            />
+          </div>
+          })
+        }
+      </div>
+
+      {/* create post messenger */}
+      <div className="flex-center space-x-2 ">
+        {
+          navLinks2.map((nav)=>{
+            return <div key={nav.outlineIcon} className="bg-gray-200 p-3 rounded-full">
+            <Image
+              src={nav.outlineIcon}
+              width={50}
+              height={50}
+              alt="logo"
+              className="w-5 h-5  cursor-pointer"
+            />
+          </div>
+          })
+        }
+      </div>
+    </div>
+  );
+};
+
+export default Topbar;

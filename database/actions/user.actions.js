@@ -71,7 +71,9 @@ export const loginUser = async (user) => {
     if (!isMatch) {
       return { status: 401, message: "Invalid credentials" };
     }
-
+    if(!findUser.verify){
+      return {status:310, message: "User isn't verified"}
+    }
     const tokenData = {
       id: findUser._id,
       name: findUser.name,
@@ -79,13 +81,11 @@ export const loginUser = async (user) => {
       birth: findUser.birth,
     };
     const token = jwt.sign(tokenData, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
-    cookies().set("token", token,{
-      
-        httpOnly: true, 
-  
-    });
+
+    cookies().set('token', token)
+
     return { status: 200, message: "User logged in successfully" };
   } catch (error) {
     return { status: 500, message: "Interal server error occured" };
