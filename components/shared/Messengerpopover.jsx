@@ -8,13 +8,14 @@ import Image from "next/image"
 const Messengerpopover = () => {
   return (
 <Popover>
-  <PopoverTrigger><div  className="bg-gray-200 p-3 rounded-full">
+  <PopoverTrigger><div  className="bg-gray-200 p-2  sm:p-3 rounded-full">
+    
               <Image
                 src={'/assets/messenger.png'}
                 width={50}
                 height={50}
                 alt="logo"
-                className="w-5 h-5  cursor-pointer"
+                className="w-3.5 h-3.5 sm:h-5 sm:w-5  cursor-pointer"
               />
             </div></PopoverTrigger>
   <PopoverContent>

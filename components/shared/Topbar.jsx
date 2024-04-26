@@ -25,7 +25,7 @@ const Topbar = () => {
             width={50}
             height={50}
             alt="logo"
-            className="w-5 h-5   rounded-full cursor-pointer"
+            className="w-3.5 h-3.5 sm:h-5 sm:w-5   rounded-full cursor-pointer"
           />
         </div>
         <div className="hidden lg:flex items-center justify-center  space-x-2 bg-gray-100 py-2 px-3 rounded-full">

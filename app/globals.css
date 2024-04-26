@@ -130,4 +130,7 @@
   .flex-start {
     @apply flex justify-start items-center;
   }
+  .create-posts-menu{
+    @apply w-full py-2 px-3 hover:bg-gray-200 rounded-md cursor-pointer space-x-2
+  }
 }
