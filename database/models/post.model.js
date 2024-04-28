@@ -1,6 +1,54 @@
 import { Schema, model, models, mongoose } from "mongoose";
-import Comment from "./comment.model";
-import Reaction from "./reaction.model";
+
+
+const ReactionSchema = new Schema({
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  postId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['like', 'love', 'care', 'haha', 'wow', 'sad', 'angry']
+  }
+
+}, { timestamps: true })
+
+const CommentSchema = new Schema(
+  {
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+    content: {
+      type: String,
+    },
+    attachments: {
+      type: [String],
+      default: [],
+    },
+    commentReactions: [],
+    commentReply: {
+
+      type: [
+        {
+          type: String,
+        },
+      ],
+      default: []
+    }
+  },
+  { timestamps: true }
+);
+
 
 const PostSchema = new Schema(
   {
@@ -12,13 +60,15 @@ const PostSchema = new Schema(
       type: String,
       required: true,
     },
-    attachments: [
-      {
-        type: String,
-        default: null,
-      },
-    ],
-    reactions: [Reaction],
+    attachments: {
+      type: [String],
+      default: [],
+    },
+    reactions: {
+      type: [ReactionSchema],
+      default: []
+
+    },
     shares: {
       type: Array,
       default: [],
@@ -27,7 +77,10 @@ const PostSchema = new Schema(
       type: Array,
       default: [],
     },
-    comments: [Comment],
+    comments: {
+      type: [CommentSchema],
+      default: []
+    },
   },
   { timestamps: true }
 );

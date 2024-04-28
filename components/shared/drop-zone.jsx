@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
-function Dropzone(props) {
+function Dropzone({fieldChange}) {
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*, video/*", // Accept both images and videos
+    accept:
+    {
+      'image/*': ['.jpeg', '.jpg', '.png'],
+      'video/*':['.mp4','.mkv','.WebM','.mov']
+    } , // Accept both images and videos
     onDrop: (acceptedFiles) => {
-      console.log(acceptedFiles);
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -16,6 +19,7 @@ function Dropzone(props) {
           })
         )
       );
+      fieldChange(acceptedFiles)
     },
   });
 
@@ -23,6 +27,7 @@ function Dropzone(props) {
     const newFiles = [...files];
     newFiles.splice(index, 1);
     setFiles(newFiles);
+    fieldChange(newFiles)
   };
 
   const thumbs = files.map((file,index) => (
