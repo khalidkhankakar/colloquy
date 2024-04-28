@@ -243,7 +243,7 @@ const Signup = () => {
           </div>
           <Separator className="w-1/2  m-auto" />
           <p className="small-regular text-center ">
-            Already have an account?{" "}
+            Already have an account?
             <Link href="/login" className="text-yellow-500  ">
               Login
             </Link>
