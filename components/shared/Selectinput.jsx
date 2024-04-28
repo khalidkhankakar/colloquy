@@ -6,17 +6,16 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const SelectInput = ({onValueChange, data=[],className='',placeholder}) => {
+const SelectInput = ({onValueChange=()=>{}, data=[],className='',placeholder=''}) => {
   return (
-<Select onValueChange={onValueChange}>
-  <SelectTrigger className={`${className}`}>
+<Select onValueChange={onValueChange} className={className}>
+  <SelectTrigger >
     <SelectValue placeholder={placeholder} />
   </SelectTrigger>
   <SelectContent>
     {
       data.map((item)=>{
         return <SelectItem key={item} value={item}>{item}</SelectItem>
-
       })
     }
       </SelectContent>

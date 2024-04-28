@@ -8,7 +8,7 @@ import Image from "next/image"
 const Userpopover = () => {
   return (
 <Popover>
-  <PopoverTrigger><div  className="bg-gray-200 p-3 rounded-full">
+  <PopoverTrigger><div  className="bg-gray-200 dark:bg-dark-3 p-3 rounded-full">
               <Image
                 src={'/assets/user.png'}
                 width={50}

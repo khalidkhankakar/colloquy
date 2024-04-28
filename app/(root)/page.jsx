@@ -1,5 +1,6 @@
-import Image from "next/image";
-
+import '../globals.css'
 export default function Home() {
-  return <main className="text-black bg-blue-300 sm:bg-red-300 md:bg-yellow-300 lg:bg-purple-400 xl:bg-green-300 2xl:bg-white ">HomeFeed</main>;
+  return <main className="hide-scroll-bar text-black dark:text-white">
+    <h1 className="h1-semibold font-poppins mx-2 my-1">Home Feed</h1>
+  </main>;
 }

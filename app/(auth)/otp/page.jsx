@@ -130,11 +130,12 @@ const Otp = () => {
             )}
           />
           <div className="grid grid-cols-2 gap-4">
-            <Button
+          <Button
               type="button"
-              className="bg-gray-300 text-black border-black mt-3 font-rubik hover:bg-gray-200 dark:bg-slate-200 dark:hover:bg-slate-200 dark:text-white"
+              onClick={()=>{ form.reset()}}
+              className="bg-gray-300 dark:bg-light-2 dark:text-black text-black border-black mt-3 font-rubik hover:bg-gray-200  "
             >
-              Cancel
+              Reset
             </Button>
             <Button
               type="submit"
@@ -144,13 +145,6 @@ const Otp = () => {
               {loading? <Loader wid={40} hei={40} /> :'Verfiy'} 
             </Button>
           </div>
-          <div className="line w-40 my-3 m-auto" />
-          <p className="small-regular font-rubik text-center ">
-            Do not have account?{" "}
-            <Link href="/signup" className="text-yellow-700  ">
-              Register
-            </Link>
-          </p>
         </form>
       </div>
     </Form>

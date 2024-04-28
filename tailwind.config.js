@@ -23,9 +23,19 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        rubik: ['Rubik']
+        rubik: ['Rubik'],
+        poppins:['Poppins']
       },
       colors: {
+        dark:{
+          1: "#0F172A",
+          2: "#1E293B",
+          3: "#0B1120"
+        },
+        light:{
+          1: "#FFFFFF",
+          2: "#F8FAFC",
+        },
         "color-1":"#03a672",
         "color-2": "#14b582",
         border: "hsl(var(--border))",

@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       <Topbar />
       <div className="grid grid-cols-12">
         <Leftsidebar />
-      <section className={'col-span-12 md:col-span-8 lg:col-span-6 max-h-screen h-screen overflow-y-scroll'} >{children}</section>
+      <section className={'col-span-12 dark:bg-dark-1 bg-white md:col-span-8 lg:col-span-6 max-h-screen h-screen overflow-y-scroll'} >{children}</section>
         <Rightsidebar />
       </div>
     </main>

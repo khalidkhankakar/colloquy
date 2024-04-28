@@ -1,18 +1,16 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-// import { Separator } from "@/components/ui/separator"
+import { Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator"
 import Image from "next/image";
 import { IoCreateOutline } from "react-icons/io5";
-import { MdSlowMotionVideo,MdEventAvailable,MdGroups,MdOutlineEmojiEvents    } from "react-icons/md";
+import { MdSlowMotionVideo,MdEventAvailable,MdGroups,MdOutlineEmojiEvents } from "react-icons/md";
 import { FaBookOpen } from "react-icons/fa";
+import Iconbutton from "./Iconbutton";
+import { Createpostdialog, Dialogbox } from ".";
 const Menupopover = () => {
   return (
-    <Popover>
+    <Popover className="dark:bg">
       <PopoverTrigger>
-        <div className="bg-gray-200 p-2 md:p-3 rounded-full">
+        <div className="bg-gray-200 p-2 md:p-3 dark:bg-dark-1 rounded-full">
           <Image
             src={"/assets/menu.png"}
             width={50}
@@ -22,39 +20,15 @@ const Menupopover = () => {
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="flex-start flex-col space-y-1">
+      <PopoverContent className="flex-start dark:bg-dark-1 flex-col space-y-1">
       <h2 className="h3-bold">Create</h2>
-
-        <div className="flex-start create-posts-menu">
-        <IoCreateOutline className="h-7 w-7" />
-          <p className="base-semibold">Post</p>
-        </div>
-
-        <div className="flex-start create-posts-menu ">
-        <MdSlowMotionVideo className="h-7 w-7" />
-          <p className="base-semibold">Reel</p>
-        </div>
-
-        <div className="flex-start create-posts-menu ">
-        <FaBookOpen className="h-7 w-7" />
-          <p className="base-semibold">Story</p>
-        </div>
-
-        <div className="flex-start create-posts-menu ">
-        <MdOutlineEmojiEvents  className="h-7 w-7" />
-          <p className="base-semibold">Life Event</p>
-        </div>
-
-        {/* <Separator /> */}
-
-        <div className="flex-start create-posts-menu ">
-        <MdGroups   className="h-7 w-7" />
-          <p className="base-semibold">Group</p>
-        </div>
-        <div className="flex-start create-posts-menu ">
-        <MdEventAvailable   className="h-7 w-7" />
-          <p className="base-semibold">Event</p>
-        </div>
+      <Dialogbox iconButton={<Iconbutton icon={<IoCreateOutline className="h-7 w-7" />} text={'Post'} />} dialogBody={<Createpostdialog />} />
+        <Iconbutton icon={<MdSlowMotionVideo className="h-7 w-7" />} text={'Reel'} />
+        <Iconbutton icon={<FaBookOpen className="h-7 w-7" />} text={'Story'} />
+        <Iconbutton icon={<MdOutlineEmojiEvents className="h-7 w-7" />} text={'Life Event'} />
+        <Separator />
+        <Iconbutton icon={<MdGroups className="h-7 w-7" />} text={'Group'} />
+        <Iconbutton icon={<MdEventAvailable className="h-7 w-7" />} text={'Event'} />
       </PopoverContent>
     </Popover>
   );

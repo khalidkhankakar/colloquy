@@ -9,7 +9,7 @@ import Userpopover from "./Userpopover";
 
 const Topbar = () => {
   return (
-    <div className="py-3 px-3 sticky top-0 bg-white  shadow-md  flex-between">
+    <div className="py-3 px-3 sticky top-0 dark:bg-dark-1 bg-white  shadow-md  flex-between">
       {/* logo and search bar */}
       <div className="flex-center space-x-4">
         <Image
@@ -19,7 +19,7 @@ const Topbar = () => {
           alt="logo"
           className="w-36 "
         />
-        <div className="bg-gray-200 p-2 rounded-full block lg:hidden">
+        <div className="bg-gray-200 dark:bg-dark-3 p-2 rounded-full block lg:hidden">
           <Image
             src={"/assets/search.png"}
             width={50}
@@ -28,7 +28,7 @@ const Topbar = () => {
             className="w-3.5 h-3.5 sm:h-5 sm:w-5   rounded-full cursor-pointer"
           />
         </div>
-        <div className="hidden lg:flex items-center justify-center  space-x-2 bg-gray-100 py-2 px-3 rounded-full">
+        <div className="hidden lg:flex items-center justify-center dark:bg-dark-3  space-x-2 bg-gray-100 py-2 px-3 rounded-full">
           <Image
             src={"/assets/search.png"}
             width={50}
@@ -39,7 +39,7 @@ const Topbar = () => {
           <input
             type="text"
             name="search"
-            className="outline-none bg-gray-100 placeholder:text-black"
+            className="outline-none dark:bg-dark-3 dark:text-slate-300 dark:placeholder:text-slate-300 bg-gray-100 placeholder:text-black"
             placeholder="Search Colloquy"
           />
         </div>
@@ -49,7 +49,7 @@ const Topbar = () => {
       <div className="hidden md:flex-center space-x-5  ">
         {navLinks.map((nav) => {
           return (
-            <div key={nav.fillIcon} className="bg-gray-200 p-3 rounded-full">
+            <div key={nav.fillIcon} className="bg-gray-200 dark:bg-dark-3 p-3 rounded-full">
               <Image
                 src={nav.outlineIcon}
                 width={50}
@@ -62,7 +62,7 @@ const Topbar = () => {
         })}
       </div>
       {/* create post messenger */}
-      <div className="flex-center space-x-2 ">
+      <div className="flex-center space-x-2  ">
         <Menupopover />
         <Messengerpopover />
         <Notificationpopover />

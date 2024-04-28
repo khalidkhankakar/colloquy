@@ -8,7 +8,7 @@ import Image from "next/image"
 const Messengerpopover = () => {
   return (
 <Popover>
-  <PopoverTrigger><div  className="bg-gray-200 p-2  sm:p-3 rounded-full">
+  <PopoverTrigger><div  className="bg-gray-200 p-2 dark:bg-dark-3  sm:p-3 rounded-full">
     
               <Image
                 src={'/assets/messenger.png'}
