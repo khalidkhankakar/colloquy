@@ -7,7 +7,7 @@ import { Themetoggle } from ".";
 
 const Leftsidebar = () => {
   return (
-    <div className="hide-scroll-bar shadow-md hidden dark:bg-dark-1 md:flex items-start px-5 py-4 justify-start space-y-2 flex-col col-span-4 lg:col-span-3 max-h-screen h-screen overflow-y-scroll">
+    <div className="hide-scroll-bar shadow-gray-500 shadow-md hidden dark:bg-dark-1 md:flex items-start px-5 py-4 justify-start space-y-2 flex-col col-span-4 lg:col-span-3 max-h-screen h-screen overflow-y-scroll">
       <Link href={"/"} className="flex-center space-x-3">
         <Image
           src={"/assets/user.png"}

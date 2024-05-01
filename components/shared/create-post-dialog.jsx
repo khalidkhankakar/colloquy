@@ -1,34 +1,22 @@
 "use client";
 import Image from "next/image";
-import {
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import {DialogContent,DialogHeader,DialogTitle,} from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImFilePicture } from "react-icons/im";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { SelectInput, Tooltiphover } from ".";
+import {Form,FormControl,FormField,FormItem,FormMessage,} from "@/components/ui/form";
+import { Dropzone, SelectInput, Tooltiphover } from ".";
 import { PostStatus } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { FaUserPlus } from "react-icons/fa";
 import { FaFaceSmile } from "react-icons/fa6";
 import { MdOutlineGifBox, MdVideoCameraBack } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
-import Dropzone from "./drop-zone";
-import { useState } from "react";
-import { createPost } from "@/database/actions/post.actions";
+import {  useState } from "react";
+import { getDataFromToken } from "@/lib/helpers/getDataFromToken";
 
 const formSchema = z.object({
   status: z.string(),
@@ -47,17 +35,36 @@ const Createpostdialog = () => {
       files: [],
     },
   });
-  // 2. Define a submit handler.
+
   async function onSubmit(values) {
-    console.log(values);
-    console.log("I am called");
-    try {
-      const k = await createPost(values.status, values.content, values.files[0]);
-      console.log("&*&*==== ", k);
-    } catch (error) {
-      console.error("Error creating post:", error);
-    }
+
+    const userId = await getDataFromToken()
+    if(!userId.id) return;
+
+    const formData = new FormData();
+    if (values.files.length > 0) {
+      console.log('APPENDING FILES....');
+      values.files.forEach(file => {
+          formData.append('files', file); // Assuming 'files' is the key for file upload
+      });
   }
+
+    formData.append('status', values.status);
+    formData.append('content', values.content);
+    formData.append('userId', userId.id);
+
+    const response = await fetch(`/api/post`, {
+      method: "POST", 
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      body: formData,
+      // body: JSON.stringify({...values, userId:userId.id}),
+    });
+    const parseRes = await response.json();
+    console.log(parseRes);
+  }
+  
   return (
     <Form {...form}>
       <DialogContent className="max-w-md rounded-lg font-poppins overflow-y-auto">
@@ -68,7 +75,7 @@ const Createpostdialog = () => {
         </DialogHeader>
         <Separator />
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)}  className="space-y-2">
           <div className="flex-start ">
             <Image
               src={"/assets/user.png"}
@@ -184,7 +191,6 @@ const Createpostdialog = () => {
             </Button>
           </div>
         </form>
-        <DialogFooter className="sm:justify-start"></DialogFooter>
       </DialogContent>
     </Form>
   );

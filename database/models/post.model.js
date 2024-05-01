@@ -52,8 +52,9 @@ const CommentSchema = new Schema(
 
 const PostSchema = new Schema(
   {
-    createBy: {
+    createdBy: {
       type: mongoose.Schema.Types.ObjectId,
+      required:true,
       ref: "User",
     },
     content: {
@@ -63,6 +64,11 @@ const PostSchema = new Schema(
     attachments: {
       type: [String],
       default: [],
+    },
+    status: {
+      type: String,
+      default: 'public',
+      enum: ['public', 'private', 'friends',]
     },
     reactions: {
       type: [ReactionSchema],

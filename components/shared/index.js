@@ -10,9 +10,9 @@ import Dialogbox from "./Dialogbox"
 import Createpostdialog from "./create-post-dialog"
 import Tooltiphover from "./tooltip-hover"
 import { Themetoggle } from "./theme-toggle"
+import Dropzone from "./drop-zone"
 
 
 
 
-
-export {Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle}
+export {Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle,Dropzone}
