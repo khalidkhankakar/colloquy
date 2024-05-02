@@ -3,21 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Loader, SelectInput } from "@/components/shared";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  DateOfBirthYears,
-  DateOfBrithDays,
-  DateOfBrithMonths,
-  formGender,
-} from "@/lib/utils";
+import { DateOfBirthYears, DateOfBrithDays, DateOfBrithMonths, formGender} from "@/lib/utils";
 import { signUpFormDefaultValues, signUpFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

@@ -35,6 +35,7 @@ module.exports = {
         light:{
           1: "#FFFFFF",
           2: "#F8FAFC",
+          3: "#f2f2f2",
         },
         "color-1":"#03a672",
         "color-2": "#14b582",

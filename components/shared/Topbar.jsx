@@ -1,15 +1,21 @@
-import { navLinks, navLinks2 } from "@/lib/utils";
+"use client";
+import { navLinks, topbarNavigations } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import Searchpopover from "./Searchpopover";
-import Menupopover from "./Menupopover";
-import Messengerpopover from "./Messengerpopover";
-import Notificationpopover from "./Notificationpopover";
-import Userpopover from "./Userpopover";
-
+import {
+  Menupopover,
+  Messengerpopover,
+  Notificationpopover,
+  Userpopover,
+} from ".";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 const Topbar = () => {
+  const pathname = usePathname();
+  const { theme } = useTheme();
   return (
-    <div className="py-3 px-3 sticky top-0 dark:bg-dark-1 bg-white  shadow-md  flex-between">
+    <div className="py-3 px-3 sticky z-50 top-0 dark:bg-dark-1 bg-white  shadow-md  flex-between">
       {/* logo and search bar */}
       <div className="flex-center space-x-4">
         <Image
@@ -46,19 +52,23 @@ const Topbar = () => {
       </div>
       {/* hidden of xsm  */}
       {/* navigations */}
-      <div className="hidden md:flex-center space-x-5  ">
-        {navLinks.map((nav) => {
-          return (
-            <div key={nav.fillIcon} className="bg-gray-200 dark:bg-dark-3 p-3 rounded-full">
-              <Image
-                src={nav.outlineIcon}
-                width={50}
-                height={50}
-                alt="logo"
-                className="w-5 h-5 cursor-pointer"
-              />
-            </div>
-          );
+      <div className="hidden md:flex space-x-10 ">
+
+        {topbarNavigations.map((nav) => {
+          return <Link className="hidden md:block " key={nav.link} href={nav.link}>
+            {
+            pathname === nav.link
+              ?
+               React.cloneElement(nav.fillComponent, {
+                  style: { height: "30px", width: "30px",  },
+                })
+              : 
+              React.cloneElement(nav.outlineComponent, {
+                  style: { height: "30px", width: "30px", },
+                })
+              
+            }
+          </Link>;
         })}
       </div>
       {/* create post messenger */}

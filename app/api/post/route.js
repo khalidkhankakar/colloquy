@@ -12,7 +12,6 @@ export async function POST(req) {
         const content = formData.get('content');
         const status = formData.get('status');
         const files = formData.getAll('files');
-console.log('========  ',userId, content, status, files);
         if (!userId) NextResponse.json({ status: 400, msg: "No user found" });
         const dbConnection = await connectToMongoDB();
         if (!dbConnection) {
@@ -22,31 +21,31 @@ console.log('========  ',userId, content, status, files);
         const attachmentsArr = [];
         if (files.length > 0) {
             await Promise.all(files.map(async (file) => {
-                console.log("Uploading image to Azure Blob Storage...", file);
+ 
 
                 const accountName = process.env.AZURE_STORAGE_NAME;
                 const sasToken = await generateSASToken();
-                console.log('Generated SAS Token:', sasToken);
+
 
                 const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net?${sasToken}`);
                 const containerClient = blobServiceClient.getContainerClient(containerName);
 
+
                 const timestamp = new Date().getTime();
-                const file_name = `${randomUUID()}_${timestamp}.png`;
+                const originalFileName = file.name; // Get original file name
+                const fileExtension = originalFileName.split('.').pop(); // Get file extension
+                const file_name = `${randomUUID()}_${timestamp}.${fileExtension}`;
 
                 const blockBlobClient = containerClient.getBlockBlobClient(file_name);
 
-                console.log("Buffering the image");
                 const imageBuffer = await file.arrayBuffer();
                 const res = await blockBlobClient.uploadData(imageBuffer);
                 const image_url = res._response.request.url;
 
-                console.log("File uploaded successfully!", image_url);
                 attachmentsArr.push(image_url);
             }));
         }
 
-        console.log('Attachments Array:', attachmentsArr);
 
         const body = {
             createdBy: userId,
@@ -59,20 +58,18 @@ console.log('========  ',userId, content, status, files);
             comments: [],
         }
         const createPostInDB = await Post.create(body)
-        console.log("HERE2");
         return NextResponse.json({ status: 201, msg: createPostInDB })
     } catch (error) {
         return NextResponse.json({ status: 500, msg: "Internal server error occurred" })
     }
 }
 
-// export async function POST(req) {
-//     try {
-//         const formData = await req.formData();
-// console.log(formData.getAll('files')[0].name, formData.get('userId'), formData.get('status'), formData.get('content'));
-//         return NextResponse.json({ k: "khalid", files:formData.getAll('files')})
-//     } catch (error) {
-//         console.log(error);
-//     }
+export async function GET(req) {
+    try {
+        const getAllPosts = await Post.find()
+        return NextResponse.json({status:200, posts: getAllPosts})
+    } catch (error) {
+        return NextResponse.json({status:500, msg:'Internal server error occured'})
+    }
 
-// }
+}

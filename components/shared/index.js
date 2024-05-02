@@ -11,8 +11,15 @@ import Createpostdialog from "./create-post-dialog"
 import Tooltiphover from "./tooltip-hover"
 import { Themetoggle } from "./theme-toggle"
 import Dropzone from "./drop-zone"
+import Iconbutton from "./Iconbutton"
+import Searchpopover from "./Searchpopover"
+import Userpopover from "./Userpopover"
+import StorySlider from "./story-slider"
+import PostCard from "./post-card"
 
 
 
 
-export {Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle,Dropzone}
+
+
+export {PostCard,Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle,Dropzone,Iconbutton,Searchpopover,Userpopover,StorySlider}

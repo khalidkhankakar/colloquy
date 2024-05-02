@@ -1,70 +1,60 @@
 "use client";
 import Image from "next/image";
-import {DialogContent,DialogHeader,DialogTitle,} from "../ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Separator } from "../ui/separator";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImFilePicture } from "react-icons/im";
-import {Form,FormControl,FormField,FormItem,FormMessage,} from "@/components/ui/form";
-import { Dropzone, SelectInput, Tooltiphover } from ".";
+import { Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import { Dropzone, Loader, SelectInput, Tooltiphover } from ".";
 import { PostStatus } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { FaUserPlus } from "react-icons/fa";
 import { FaFaceSmile } from "react-icons/fa6";
 import { MdOutlineGifBox, MdVideoCameraBack } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
-import {  useState } from "react";
+import { useState } from "react";
 import { getDataFromToken } from "@/lib/helpers/getDataFromToken";
+import { postFormDefaultValues, postFormSchema } from "@/lib/validations";
 
-const formSchema = z.object({
-  status: z.string(),
-  content: z.string().min(12, { message: "Write something" }),
-  files: z.custom(),
-});
+
 
 const Createpostdialog = () => {
   const [showDropzone, setShowDropzone] = useState(false);
-  // 1. Define your form.
+  const [loading, setLoading] = useState(false);
   const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      status: "public",
-      content: "",
-      files: [],
-    },
+    resolver: zodResolver(postFormSchema),
+    defaultValues: postFormDefaultValues
   });
 
   async function onSubmit(values) {
-
-    const userId = await getDataFromToken()
-    if(!userId.id) return;
-
-    const formData = new FormData();
-    if (values.files.length > 0) {
-      console.log('APPENDING FILES....');
-      values.files.forEach(file => {
-          formData.append('files', file); // Assuming 'files' is the key for file upload
+    try {
+      setLoading(true)
+      const userId = await getDataFromToken();
+      if (!userId.id) return;
+      const formData = new FormData();
+      if (values.files.length > 0) {
+        values.files.forEach((file) => {
+          formData.append("files", file); // Assuming 'files' is the key for file upload
+        });
+      }
+      formData.append("status", values.status);
+      formData.append("content", values.content);
+      formData.append("userId", userId.id);
+      const response = await fetch(`/api/post`, {
+        method: "POST",
+        body: formData,
       });
+      const parseRes = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+    finally{
+      setLoading(false)
+    }
   }
 
-    formData.append('status', values.status);
-    formData.append('content', values.content);
-    formData.append('userId', userId.id);
-
-    const response = await fetch(`/api/post`, {
-      method: "POST", 
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      body: formData,
-      // body: JSON.stringify({...values, userId:userId.id}),
-    });
-    const parseRes = await response.json();
-    console.log(parseRes);
-  }
-  
   return (
     <Form {...form}>
       <DialogContent className="max-w-md rounded-lg font-poppins overflow-y-auto">
@@ -75,7 +65,7 @@ const Createpostdialog = () => {
         </DialogHeader>
         <Separator />
 
-        <form onSubmit={form.handleSubmit(onSubmit)}  className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <div className="flex-start ">
             <Image
               src={"/assets/user.png"}
@@ -118,20 +108,20 @@ const Createpostdialog = () => {
             )}
           />
 
-          {/* {showDropzone && ( */}
-            <FormField
-              control={form.control}
-              name="files"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Dropzone fieldChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+          {showDropzone && ( 
+          <FormField
+            control={form.control}
+            name="files"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Dropzone fieldChange={field.onChange} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-          {/* )} */}
+           )} 
 
           <div className="border border-gray-400 flex-between py-1 px-3 rounded-md">
             <p className="small-medium ">Add to Post</p>
@@ -140,7 +130,6 @@ const Createpostdialog = () => {
                 className="h-5 w-5 cursor-pointer text-green-600"
                 onClick={() => setShowDropzone((prev) => !prev)}
               />
-              {/* <Tooltiphover iconButton={<ImFilePicture  className="h-5 w-5 cursor-pointer text-green-600" onClick={()=>setShowDropzone((prev)=>!prev)} />} tooltipText="Photo/Video" /> */}
               <Tooltiphover
                 iconButton={
                   <FaUserPlus className="h-5 w-5 cursor-pointer text-blue-600" />
@@ -187,7 +176,7 @@ const Createpostdialog = () => {
               type="submit"
               className="mt-3 bg-color-1 hover:bg-color-2 font-rubik"
             >
-              Create
+             { loading ? <Loader wid={40} hei={40} /> : "Create"}
             </Button>
           </div>
         </form>

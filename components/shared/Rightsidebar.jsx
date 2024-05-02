@@ -2,7 +2,9 @@
 
 const Rightsidebar = () => {
   return (
-    <div className="hide-scroll-bar shadow-md shadow-gray-500 bg-white-500 dark:bg-dark-1 hidden lg:block col-span-3 max-h-screen h-screen overflow-y-scroll">Rightsidebar</div>
+    <div className="hide-scroll-bar  bg-white-500 dark:bg-dark-1 hidden lg:block col-span-3 max-h-screen h-screen overflow-y-scroll">
+       Rightsidebar
+       </div>
   )
 }
 
