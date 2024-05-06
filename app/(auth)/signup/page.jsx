@@ -14,8 +14,10 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { EmailContext } from "@/context/emailContext/EmailContext";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
 const Signup = () => {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { setUserEmail } = useContext(EmailContext);
   const inputRef = useRef(null);
@@ -47,12 +49,20 @@ const Signup = () => {
       };
       // Creating the user in Database using NextJS Server Actions
       const resp = await createUser(newValues);
-      console.log(resp);
       if (resp.status == 201) {
         setUserEmail(values.email);
         router.push("/otp");
+        toast({
+          title:"Email is sent",
+          description:"Verification code is sent successfuly"
+        })
       }
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Server error",
+        description: resp.message,
+      });
       console.log(error);
     } finally {
       setLoading(false);

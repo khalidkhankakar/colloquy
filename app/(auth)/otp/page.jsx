@@ -65,8 +65,6 @@ const Otp = () => {
       setLoading(true)
     // verify the OTP
     const resp = await verifyOTP(userEmail, values.otp);
-    console.log(resp);
-    console.log(values);
   } catch (error) {
       console.log(error);
   }finally{

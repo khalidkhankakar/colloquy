@@ -16,10 +16,11 @@ import Searchpopover from "./Searchpopover"
 import Userpopover from "./Userpopover"
 import StorySlider from "./story-slider"
 import PostCard from "./post-card"
+import Giphy from "./giphy"
 
 
 
 
 
 
-export {PostCard,Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle,Dropzone,Iconbutton,Searchpopover,Userpopover,StorySlider}
+export {Giphy,PostCard,Topbar,Leftsidebar,Rightsidebar,SelectInput,Loader,Messengerpopover,Notificationpopover,Menupopover,Dialogbox,Createpostdialog,Tooltiphover,Themetoggle,Dropzone,Iconbutton,Searchpopover,Userpopover,StorySlider}

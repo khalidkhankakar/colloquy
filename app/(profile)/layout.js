@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     return (
         <main>
             <Topbar />
-            <section className="w-full bg-green-300 s">
+            <section className="w-full  ">
                 {children}
             </section>
         </main>

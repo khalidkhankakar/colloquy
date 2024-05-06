@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
-function Dropzone({fieldChange}) {
-  const [files, setFiles] = useState([]);
+function Dropzone({fieldChange,gifFileUrl=[]}) {
+  const [files, setFiles] = useState([...gifFileUrl]);
   const { getRootProps, getInputProps } = useDropzone({
     accept:
     {

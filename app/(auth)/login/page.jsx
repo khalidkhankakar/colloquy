@@ -19,8 +19,10 @@ import { useState } from "react";
 import { loginUser } from "@/database/actions/user.actions";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
+  const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const form = useForm({
@@ -35,14 +37,27 @@ const Login = () => {
       const resp = await loginUser(values);
       console.log(JSON.parse(JSON.stringify(resp)));
       if (resp.status == 200) {
+        toast({
+          title: "Login successfully",
+          description: resp.message,
+        });
         router.push("/");
         return;
       }
       if (resp.status == 310) {
+        toast({
+          title: "Not verified user",
+          description: resp.message,
+        });
         router.push("/otp");
         return;
       }
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Server error",
+        description: resp.message,
+      });
       console.log(error);
     } finally {
       setLoading(false);
@@ -93,9 +108,11 @@ const Login = () => {
             )}
           />
           <div className="grid grid-cols-2 gap-4">
-          <Button
+            <Button
               type="button"
-              onClick={()=>{ form.reset()}}
+              onClick={() => {
+                form.reset();
+              }}
               className="bg-gray-300 dark:bg-light-2 dark:text-black text-black border-black mt-3 font-rubik hover:bg-gray-200  "
             >
               Reset
@@ -107,7 +124,7 @@ const Login = () => {
               {loading ? <Loader wid={40} hei={40} /> : "Login"}{" "}
             </Button>
           </div>
-            <Separator className='w-1/2  m-auto' />
+          <Separator className="w-1/2  m-auto" />
           <p className="small-regular font-rubik text-center ">
             Do not have account?{" "}
             <Link href="/signup" className="text-yellow-500  ">

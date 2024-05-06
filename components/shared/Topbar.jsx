@@ -1,13 +1,8 @@
 "use client";
-import { navLinks, topbarNavigations } from "@/lib/utils";
+import { topbarNavigations } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import {
-  Menupopover,
-  Messengerpopover,
-  Notificationpopover,
-  Userpopover,
-} from ".";
+import { Menupopover, Messengerpopover, Notificationpopover, Userpopover} from ".";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
